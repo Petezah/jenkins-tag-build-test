@@ -11,7 +11,14 @@ pipeline {
         sh '''make
 ./testprog
 '''
-        archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
+      }
+    }
+
+    when {
+      tag '*' {
+        stage('Deploy') {
+          archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
+        }
       }
     }
   }
