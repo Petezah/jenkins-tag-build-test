@@ -1,18 +1,16 @@
-pipeline {
-  agent {
-    node {
-      label 'mac'
+node('mac'){
+  stage('Prep'){
+    if(env.TAG_NAME){
+      var tagname = env.TAG_NAME
+      echo "Building a tag: $tagname"
+    } else {
+      echo "Not building a tag"
     }
-
   }
-  stages {
-    stage('Build') {
-      steps {
-        sh '''make
+  stage('Build'){
+    sh '''make
 ./testprog
 '''
-        archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
-      }
-    }
+    archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
   }
 }
