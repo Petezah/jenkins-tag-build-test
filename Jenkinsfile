@@ -11,8 +11,15 @@ pipeline {
         sh '''make
 ./testprog
 '''
-        archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
       }
+    }
+    
+    stage('Deploy') {
+      when { tag "*" }
+            steps {
+                echo 'Deploying only because this commit is tagged...'
+                archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
+            }
     }
   }
 }
