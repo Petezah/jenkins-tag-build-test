@@ -13,6 +13,10 @@ node('mac'){
     sh '''make
 ./testprog
 '''
-    archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
+  }
+  stage('Deploy'){
+    if(env.TAG_NAME){
+      archiveArtifacts(artifacts: 'testprog', onlyIfSuccessful: true)
+    }
   }
 }
